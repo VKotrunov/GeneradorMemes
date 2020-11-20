@@ -1,0 +1,110 @@
+﻿<Window x:Class="GeneradorMemes.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GeneradorMemes"
+        mc:Ignorable="d"
+        Title="MemeMaker" Height="725" Width="845" Icon="lol.ico">
+    <Window.Resources>
+        <local:BordeConverter x:Key="conversor"/>
+
+        <Style TargetType="TextBlock" x:Key="textoEstilo">
+            <Setter Property="FontFamily" Value="Impact"/>
+            <Setter Property="FontSize" Value="36"/>
+            <Setter Property="Foreground"
+                    Value="White" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Center" />
+            <Setter Property="TextWrapping"
+                    Value="Wrap" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Slider">
+            <Setter Property="Minimum" Value="100"/>
+            <Setter Property="Maximum" Value="1000"/>
+            <Setter Property="Value" Value="500"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Margin" Value="10,5,0,5"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.15*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Texto superior" Grid.Column="0" Grid.Row="0" />
+        <TextBox x:Name="textoSuperiorTextBox" Text="Texto superior" Grid.Column="1" Grid.Row="0" />
+
+        <TextBlock Text="Texto inferior" Grid.Column="0" Grid.Row="1" />
+        <TextBox x:Name="textoInferiorTextBox" Text="Texto inferior" Grid.Column="1" Grid.Row="1" />
+
+        <TextBlock Text="Alto" Grid.Column="0" Grid.Row="2" />
+        <Slider x:Name="altoSlider" Grid.Column="1" Grid.Row="2" />
+
+        <TextBlock Text="Ancho" Grid.Column="0" Grid.Row="3"/>
+        <Slider x:Name="anchoSlider" Grid.Column="1" Grid.Row="3" />
+
+        <TextBlock Text="Imagen"
+                   Grid.Column="0"
+                   Grid.Row="4" />
+        <TextBox x:Name="rutaTextBox"
+                 Text=""
+                 Grid.Column="1"
+                 Grid.Row="4" />
+
+        <TextBlock Text="Borde" Grid.Column="0" Grid.Row="5" />
+        <CheckBox x:Name="bordeCheckBox"
+                  Tag="2"
+                  IsChecked="True"
+                  Grid.Column="1"
+                  Grid.Row="5"
+                  VerticalAlignment="Center"
+                  Height="20" 
+                  Margin="5,5,0,5" />
+        <ScrollViewer Grid.Column="0"
+                      Grid.ColumnSpan="2"
+                      Grid.Row="6" 
+                      HorizontalScrollBarVisibility="Auto" 
+                      VerticalScrollBarVisibility="Auto">
+            <Border  BorderThickness="{Binding ElementName=bordeCheckBox, Path=IsChecked, Converter={StaticResource conversor}}"
+                     BorderBrush="Black"
+                     Background="MistyRose"
+                     Width="{Binding ElementName=anchoSlider, Path=Value}"
+                     Height="{Binding ElementName=altoSlider, Path=Value}">
+                <Grid>
+                    <Image Source="{Binding ElementName=rutaTextBox, Path=Text}" Stretch="Fill"/>
+                    <TextBlock Text="{Binding ElementName=textoSuperiorTextBox, Path=Text}" Style="{StaticResource textoEstilo}" VerticalAlignment="Top"/>
+                    <TextBlock Text="{Binding ElementName=textoInferiorTextBox, Path=Text}"
+                               Style="{StaticResource textoEstilo}" VerticalAlignment="Bottom"/>
+                </Grid>
+            </Border>
+        </ScrollViewer>
+    </Grid>
+</Window>
